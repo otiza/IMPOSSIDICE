@@ -45,11 +45,12 @@ def hola(num):
                             myfile.write("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance']+"\n")
                 except Exception as e:
                     with open("keys.txt", "a") as myfile:
-                            myfile.write(e)
-                            myfile.write("result"+str(data['result'])+"\n")
+                            myfile.write("++++++++++++++++++++++++\n")
+                            myfile.write(json.dumps(data)+"\n")
                             myfile.write("keys"+str(keys)+"\n")
+                            myfile.write("++++++++++++++++++++++++\n")
 
-hola(sys.argv[1])
+#hola(sys.argv[1])
 
 while(1):
      rand = random.randint(1,904625697166532776746648320380374280100293470930272690489102837043110636675)
