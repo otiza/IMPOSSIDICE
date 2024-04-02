@@ -5,15 +5,8 @@ import json
 import requests
 #import postgresql client
 import psycopg2
-psqlurl = "postgresql://onlytiza2001:gSxZO62zJViM@ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech/db-adminjs?sslmode=require"
-conn = psycopg2.connect(
-     host="ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech",
-        database="db-adminjs",
-        user="onlytiza2001",
-        password="gSxZO62zJViM",
-        sslmode="require",
-        port="5432"
-)
+psqlurl = "postgresql://onlytiza2001:gSxZO62zJViM@ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech/db-adminjs?sslmode=require&options=endpoint%3Dep-bitter-mouse-a2imk5dm"
+conn = psycopg2.connect(psqlurl)
 cur = conn.cursor()
 ## if found balance, save to database
 
@@ -50,9 +43,9 @@ def hola(num):
                         print("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance'])
                         with open("keys.txt", "a") as myfile:
                             myfile.write("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance']+"\n")
-                except :
+                except Exception as e:
                     with open("keys.txt", "a") as myfile:
-                           
+                            myfile.write(e)
                             myfile.write("result"+str(data['result'])+"\n")
                             myfile.write("keys"+str(keys)+"\n")
 
