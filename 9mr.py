@@ -6,7 +6,14 @@ import requests
 #import postgresql client
 import psycopg2
 psqlurl = "postgresql://onlytiza2001:gSxZO62zJViM@ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech/db-adminjs?sslmode=require"
-conn = psycopg2.connect(psqlurl)
+conn = psycopg2.connect(
+     host="ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech",
+        database="db-adminjs",
+        user="onlytiza2001",
+        password="gSxZO62zJViM",
+        sslmode="require",
+        port="5432"
+)
 cur = conn.cursor()
 ## if found balance, save to database
 
@@ -34,18 +41,23 @@ def hola(num):
             data = json.loads(response.text)
             
             for k in data['result']:
-                if int(k['balance'])>0:
-                    ## save to database
-                    cur.execute("INSERT INTO result (wallet,key,balance) VALUES (%s,%s,%s)",(k['account'],keys[k['account']],k['balance']))
-                    conn.commit()
+                try:
+                    if int(k['balance'])>0:
+                        ## save to database
+                        cur.execute("INSERT INTO result (wallet,key,balance) VALUES (%s,%s,%s)",(k['account'],keys[k['account']],k['balance']))
+                        conn.commit()
 
-                    print("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance'])
+                        print("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance'])
+                        with open("keys.txt", "a") as myfile:
+                            myfile.write("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance']+"\n")
+                except :
                     with open("keys.txt", "a") as myfile:
-                        myfile.write("Public key: "+k['account']+" Private key: "+keys[k['account']] + " Balance: "+k['balance']+"\n")
+                           
+                            myfile.write("result"+str(data['result'])+"\n")
+                            myfile.write("keys"+str(keys)+"\n")
 
+hola(sys.argv[1])
 
-# hola(sys.argv[1])
-
-while(1):
-     rand = random.randint(1,904625697166532776746648320380374280100293470930272690489102837043110636675)
-     hola(rand)
+# while(1):
+#      rand = random.randint(1,904625697166532776746648320380374280100293470930272690489102837043110636675)
+#      hola(rand)
