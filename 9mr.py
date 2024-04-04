@@ -5,15 +5,19 @@ import json
 import requests
 #import postgresql client
 import psycopg2
+from web3 import Web3
 psqlurl = "postgresql://onlytiza2001:gSxZO62zJViM@ep-bitter-mouse-a2imk5dm.eu-central-1.aws.neon.tech/db-adminjs?sslmode=require&options=endpoint%3Dep-bitter-mouse-a2imk5dm"
 conn = psycopg2.connect(psqlurl)
 cur = conn.cursor()
 ## if found balance, save to database
-
+api_keysss = ["F92Z14GE2DTF6PBBYY1YPHPJ438PT3P2VI","12RU83G1ATVA9V4EMM3U45X8BG4RG9PM6T"]
+def rand_token():
+     api_key = "F92Z14GE2DTF6PBBYY1YPHPJ438PT3P2VI"
+     return "https://api.etherscan.io/api?module=account&action=balancemulti&apikey="+api_key+"&address="
 def hola(num):
 
-    api_key = "F92Z14GE2DTF6PBBYY1YPHPJ438PT3P2VI"
-    url = "https://api.etherscan.io/api?module=account&action=balancemulti&apikey=F92Z14GE2DTF6PBBYY1YPHPJ438PT3P2VI&address="
+    
+    url = rand_token()
     keysperpage = 128
     totalpages= 904625697166532776746648320380374280100293470930272690489102837043110636675
     keys = {}
@@ -32,7 +36,14 @@ def hola(num):
             urls= url + ",".join(addresses)
             response = requests.get(urls)
             data = json.loads(response.text)
+            while data['status'] == '0' or data['message'] == 'NOTOK':
+
+                response = requests.get(urls)
+                data = json.loads(response.text)
+                
             
+                
+                 
             for k in data['result']:
                 try:
                     if int(k['balance'])>0:
