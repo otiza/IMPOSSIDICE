@@ -3,6 +3,7 @@ import psycopg2
 import random
 import blocksmith
 import sys
+import bitcoin
 import json
 import requests
 #w3 = Web3(Web3.WebsocketProvider('wss://ethereum-sepolia-rpc.publicnode.com'))
@@ -39,6 +40,7 @@ def hola(num):
     for j in range(firstseed,firstseed+keysperpage-1):
         privatekey = '{:064x}'.format(j+1)
         publickey = str(blocksmith.EthereumWallet.generate_address(privatekey))
+        ## gr
         keys[publickey]=privatekey
         print(publickey)
         checksum_address = Web3.to_checksum_address(publickey)
