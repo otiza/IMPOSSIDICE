@@ -13,10 +13,12 @@ def split_range_into_chunks(start_hex, end_hex, num_chunks):
     return chunks
 
 if __name__ == "__main__":
-    start_hex = "0000000000000000000000000000000000000000000000020000000000000000"
-    end_hex = "000000000000000000000000000000000000000000000003ffffffffffffffff"
-    num_chunks = 100
+    start_hex = "0000000000000000000000000000000000000000000000000000000000000400"
+    end_hex = "00000000000000000000000000000000000000000000000000000000000007ff"
+    num_chunks = 5
 
     chunks = split_range_into_chunks(start_hex, end_hex, num_chunks)
-    for i, (chunk_start, chunk_end) in enumerate(chunks):
-        print(f"Chunk {i+1}: Start = {hex(chunk_start)}, End = {hex(chunk_end)}")
+    with open(f"chunk_sss.txt", "w") as f:
+        for i, (chunk_start, chunk_end) in enumerate(chunks):
+            f.write(f"{hex(chunk_start)},{hex(chunk_end)}\n")
+            print(f"{hex(chunk_start)},{hex(chunk_end)}\n")
